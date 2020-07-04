@@ -1,0 +1,32 @@
+{
+  "name": "soundbuilder3",
+  "version": "0.0.3",
+  "description": "Convert sounds from wav to something internet playable",
+  "main": "index.js",
+  "scripts": {
+    "start-bad": "tsc index.ts && node index.js",
+    "start": "setx path \"%path%;C:\\dev2019\\raz\\games\\sounds-builder\\ffmpeg\\bin\" &  ts-node index.ts",
+    "dev": "ts-node-dev index.ts hello=dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bin": {
+    "soundsbuilder": "./index.ts"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.118",
+    "@types/node": "^10.12.12",
+    "audiosprite": "^0.7.1",
+    "audiosprite-ffmpeg": "^0.8.1",
+    "chalk": "^2.4.1",
+    "chokidar": "^1.7.0",
+    "co": "^4.6.0",
+    "co-prompt": "^1.0.0",
+    "commander": "^2.19.0",
+    "jsonfile": "^3.0.1",
+    "lodash": "^4.17.11",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.4.2"
+  }
+}
