@@ -21,9 +21,14 @@ const program: any = require("commander");
 const path = require("path");
 const exec = require("child_process").exec;
 
+var argv = require("minimist")(process.argv.slice(2));
+console.log(argv);
+
 console.log(chalk.bold.cyan("-.-"));
 console.log(chalk.bold.green("~Stevie Bushman Presents~"));
 console.log("Sounds Builder - watch and convert sounds - v0.0.3");
+
+console.log;
 
 // print args
 process.argv.forEach((val, index, array) => {
@@ -38,23 +43,23 @@ process.title = "Sfx:" + dir;
 
 let folder = dir;
 
-let basePath = __dirname;
+// let basePath = __dirname;
+let basePath = argv.src || path.join(__dirname, "../");
 console.log("__dirname", __dirname);
-basePath = path.join(basePath, "../", dir);
+// basePath = path.join(basePath, "../", dir);
 console.log("basePath", basePath);
 console.log("dir", dir);
 
-let watchPath =
-  path.join(basePath, "public", "assets", "sounds", "audioSprite1") + "\\";
-let outPath = path.join(basePath, "public", "assets", "sounds") + "\\";
+let watchPath = path.join(basePath, "assets", "sounds", "audioSprite1") + "\\";
+let outPath = path.join(basePath, "assets", "sounds") + "\\";
 //let watchPath = `C:\\dev\\Speedy-Snail-Game-Engine\\src-resources\\${folder}\\sounds\\sprite1\\`
 //let outPath = `C:\\dev\\Speedy-Snail-Game-Engine\\src-deploy\\public\\${folder}\\sounds\\`
 
 // let watchPath = `C:\\dev\\Speedy-Snail-Game-Engine\\src-resources\\${folder}\\sounds\\sprite1\\`
 // let outPath = `C:\\dev\\Speedy-Snail-Game-Engine\\src-deploy\\public\\${folder}\\sounds\\`
 
-let watchPathMusic = path.join(basePath, "public", "assets", "music") + "\\";
-let outPathMusic = path.join(basePath, "public", "assets", "music") + "\\";
+let watchPathMusic = path.join(basePath, "assets", "music") + "\\";
+let outPathMusic = path.join(basePath, "assets", "music") + "\\";
 
 // let watchPathMusic = `C:\\dev\\Speedy-Snail-Game-Engine\\src-resources\\${folder}\\music\\`
 // let outPathMusic = `C:\\dev\\Speedy-Snail-Game-Engine\\src-deploy\\public\\${folder}\\music\\`
@@ -72,11 +77,11 @@ let watchGlobMusic = watchPathMusic + "*.wav";
 
 function run() {
   // TODO: command line args
-  program
-    .arguments("<file>")
-    .option("-n, --narm <narm>", "Your name")
-    .action(function(file, options) {})
-    .parse(process.argv);
+  // program
+  //   .arguments("<file>")
+  //   .option("-n, --narm <narm>", "Your name")
+  //   .action(function (file, options) {})
+  //   .parse(process.argv);
 
   // Stuff that is always done
   watch(watchGlob);
@@ -91,7 +96,7 @@ function run() {
 function watch(glob: string) {
   // Initialize watcher.
   let watcher = chokidar.watch(glob, {
-    persistent: true
+    persistent: true,
   });
 
   // Something to use when events are received.
@@ -99,23 +104,23 @@ function watch(glob: string) {
 
   // Add event listeners.
   watcher
-    .on("add", loc => onWatchEvent(loc, "added", false))
-    .on("change", loc => onWatchEvent(loc, "changed", false));
+    .on("add", (loc) => onWatchEvent(loc, "added", false))
+    .on("change", (loc) => onWatchEvent(loc, "changed", false));
 }
 
 function watchMusic(glob: string) {
   // Initialize watcher.
   let watcher = chokidar.watch(glob, {
     persistent: true,
-    ignoreInitial: false
+    ignoreInitial: false,
   });
 
   // Something to use when events are received.
   let log = console.log.bind(console);
   // Add event listeners.
   watcher
-    .on("add", loc => onWatchEvent(loc, "added", true))
-    .on("change", loc => onWatchEvent(loc, "changed", true));
+    .on("add", (loc) => onWatchEvent(loc, "added", true))
+    .on("change", (loc) => onWatchEvent(loc, "changed", true));
 }
 
 function onWatchEvent(loc, type, isMusic) {
@@ -149,7 +154,7 @@ function runCommand(pathToProgram, args, prefix, friendlyName) {
   if (verbose) {
     console.log("exe", cmd);
   }
-  exec(cmd, function(error, stdout, stderr) {
+  exec(cmd, function (error, stdout, stderr) {
     // command output is in stdout
     if (error) {
       console.log("error =>", error);
@@ -185,7 +190,7 @@ function createSprite() {
 
     let opts = {
       output: outPath + "audioSprite1",
-      format: "howler"
+      format: "howler",
     };
     const audiosprite = require("audiosprite-ffmpeg");
 
@@ -203,7 +208,7 @@ function createSprite() {
         `assets/sounds/audioSprite1.ogg`,
         `assets/sounds/audioSprite1.m4a`,
         `assets/sounds/audioSprite1.mp3`,
-        `assets/sounds/audioSprite1.ac3`
+        `assets/sounds/audioSprite1.ac3`,
       ];
       if (verbose) {
         //console.log(JSON.stringify(obj, null, 2))
@@ -220,7 +225,7 @@ function createSprite() {
 
 const _throttled_createSprite = _.throttle(createSprite, 500, {
   leading: false,
-  trailing: true
+  trailing: true,
 });
 
 run();
